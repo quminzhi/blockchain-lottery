@@ -40,6 +40,8 @@ contract Lottery {
         uint index = getRandomNumber() % players.length;
         players[index].transfer(address(this).balance);
 
+        emit transferLog(msg.sender, players[index], address(this).balance);
+
         lotteryHistory[lotteryId] = players[index];
         lotteryId++;
         
@@ -47,6 +49,8 @@ contract Lottery {
         // reset the state of the contract
         players = new address payable[](0);
     }
+
+    event transferLog(address indexed from, address indexed to, uint256 value);
 
     modifier onlyowner() {
       require(msg.sender == owner);
